@@ -1,0 +1,8 @@
+{
+  "name": "openaiassistant",
+  "private": true,
+  "workspaces": [
+    "ui",
+    "api"
+  ]
+}
