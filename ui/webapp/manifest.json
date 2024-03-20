@@ -66,14 +66,44 @@
 			"routes": [
 				{
 					"pattern": "",
-					"name": "main",
-					"target": "main"
+					"name": "home",
+					"target": [
+						"home",
+						"master"
+					]
+				},
+				{
+					"pattern": "assistant_id/{assistant_id}",
+					"name": "detail",
+					"target": [
+						"detail"
+					]
 				}
 			],
 			"targets": {
-				"main": {
-					"viewId": "main",
+				"home": {
+					"viewId": "home",
 					"viewName": "Main"
+				},
+				"master": {
+					"viewName": "Master",
+					"viewPath": "com.dhrubajyoti2006.openaiassistant.view",
+					"viewId": "Master",
+					"transition": "show",
+					"controlId": "SplitApp",
+					"controlAggregation": "masterPages",
+					"parent": "home",
+					"title": " "
+				},
+				"detail": {
+					"viewName": "Detail",
+					"viewPath": "com.dhrubajyoti2006.openaiassistant.view",
+					"viewId": "Detail",
+					"transition": "show",
+					"controlId": "SplitApp",
+					"controlAggregation": "detailPages",
+					"parent": "home",
+					"title": " "
 				}
 			}
 		}

@@ -1,0 +1,32 @@
+<mvc:View
+	controllerName="com.dhrubajyoti2006.openaiassistant.controller.Master"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	core:require="{
+		formatter: 'com/dhrubajyoti2006/openaiassistant/model/formatter'
+	}">
+	<Page showHeader="false">
+		<toolbar>
+			<OverflowToolbar>
+				<Title text="Assistants"/>
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://add" tooltip="Add a new Assistant" press="onPressAddButton"/>
+			</OverflowToolbar>
+		</toolbar>
+		<List id="deprecatedWidgetsList" mode="Delete"
+					delete="onDelete"
+					noDataText="{i18n>noAssistants}"
+					items="{
+						path:'mainModel>/assistantsList',
+						sorter: { path: 'created_at' }
+					}"
+					itemPress="onItemPress">
+			<items>
+				<StandardListItem title="{mainModel>name}" description="{mainModel>model}" detailPress="onDetailPress"
+													type="DetailAndActive"/>
+			</items>
+		</List>
+	</Page>
+</mvc:View>
