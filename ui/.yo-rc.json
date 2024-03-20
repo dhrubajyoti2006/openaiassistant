@@ -1,0 +1,17 @@
+{
+  "generator-ui5-ts-app": {
+    "namespace": "com.dhrubajyoti2006.openaiassistant",
+    "framework": "SAPUI5",
+    "frameworkVersion": "1.121.2",
+    "author": "Dhrubajyoti Rakshit",
+    "initrepo": false,
+    "tstypes": "@sapui5/types",
+    "tstypesVersion": "1.121.2",
+    "appId": "com.dhrubajyoti2006.openaiassistant",
+    "appURI": "com/dhrubajyoti2006/openaiassistant",
+    "cdnDomain": "ui5.sap.com",
+    "defaultTheme": "sap_horizon",
+    "gte11150": true,
+    "setupCompleted": true
+  }
+}
