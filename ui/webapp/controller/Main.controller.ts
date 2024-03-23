@@ -1,11 +1,12 @@
 import BaseController from "./BaseController";
+import {Constants} from "com/dhrubajyoti2006/openaiassistant/utils/Constants";
 
 /**
  * @namespace com.dhrubajyoti2006.openaiassistant.controller
  */
 export default class Main extends BaseController {
 	public createAssistant(): void {
-		fetch("http://localhost:3000/createAssistant")
+		fetch(Constants.apiUrl + "/createAssistant")
 			.then(response => response.text())
 			.then(data => {
 				console.log("Data from API:", data);
@@ -18,7 +19,7 @@ export default class Main extends BaseController {
 			});
 	}
 	public createThread(): void {
-		fetch("http://localhost:3000/createThread")
+		fetch(Constants.apiUrl + "/createThread")
 			.then(response => response.text())
 			.then(data => {
 				console.log("Data from API:", data);

@@ -7,6 +7,7 @@ import Dialog from "sap/ui/webc/main/Dialog";
 import Fragment from "sap/ui/core/Fragment";
 import {StandardListItem$DetailClickEvent} from "sap/ui/webc/main/StandardListItem";
 import MessageBox from "sap/m/MessageBox";
+import {Constants} from "com/dhrubajyoti2006/openaiassistant/utils/Constants";
 
 /**
  * @namespace com.dhrubajyoti2006.openaiassistant.controller
@@ -71,16 +72,16 @@ export default class Master extends BaseController {
 	}
 
 	private onSubmitAssistantUpdate() {
-		fetch('http://localhost:3000/createAssistant', {
-			method: 'POST',
+		fetch(Constants.apiUrl + "/createAssistant", {
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			},
 			body: JSON.stringify(this.getMainModel().getProperty("/assistant"))
 		})
 			.then(response => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error("Network response was not ok");
 				}
 				return response.json(); // Assuming the response is JSON
 			})
@@ -100,7 +101,7 @@ export default class Master extends BaseController {
 	}
 
 	public assistantsList(): void {
-		fetch("http://localhost:3000/assistantsList")
+		fetch(Constants.apiUrl + "/assistantsList")
 			.then(response => response.text())
 			.then(data => {
 				(this.getModel("mainModel") as JSONModel).setProperty("/assistantsList", JSON.parse(data).data);
@@ -126,7 +127,7 @@ export default class Master extends BaseController {
 
 	public deleteAssistant(assistant_id: string): void {
 		fetch(`http://localhost:3000/deleteAssistant/${assistant_id}`, {
-			method: 'DELETE'
+			method: "DELETE"
 		})
 			.then(response => response.text())
 			.then(data => {

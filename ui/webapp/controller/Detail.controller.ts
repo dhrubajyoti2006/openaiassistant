@@ -5,6 +5,7 @@ import Popover from "sap/m/Popover";
 import Fragment from "sap/ui/core/Fragment";
 import Input from "sap/m/Input";
 import {Button$PressEvent} from "sap/m/Button";
+import {Constants} from "com/dhrubajyoti2006/openaiassistant/utils/Constants";
 
 /**
  * @namespace com.dhrubajyoti2006.openaiassistant.controller
@@ -73,7 +74,7 @@ export default class Detail extends BaseController {
 	}
 
 	public onPressAddButton() {
-		fetch("http://localhost:3000/createThread")
+		fetch(Constants.apiUrl + "/createThread")
 			.then(response => response.text())
 			.then(data => {
 				this.setThreadId(JSON.parse(data).id);
@@ -109,7 +110,7 @@ export default class Detail extends BaseController {
 
 	public deleteThread(thread_id: string): void {
 		fetch(`http://localhost:3000/deleteAssistant/${thread_id}`, {
-			method: 'DELETE'
+			method: "DELETE"
 		})
 			.then(response => response.text())
 			.then(data => {
@@ -125,16 +126,16 @@ export default class Detail extends BaseController {
 		const content = (this.getView().byId("idMessage") as Input).getValue();
 		const thread_id = (this.getModel("mainModel") as JSONModel).getProperty("/thread_id");
 
-		fetch('http://localhost:3000/createMessage', {
-			method: 'POST',
+		fetch(Constants.apiUrl + "/createMessage", {
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({thread_id: thread_id, content: content})
 		})
 			.then(response => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error("Network response was not ok");
 				}
 				return response.json(); // Assuming the response is JSON
 			})
@@ -149,16 +150,16 @@ export default class Detail extends BaseController {
 	}
 
 	public createRun(assistant_id: string, thread_id: string): void {
-		fetch('http://localhost:3000/createRun', {
-			method: 'POST',
+		fetch(Constants.apiUrl + "/createRun", {
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({assistant_id: assistant_id, thread_id: thread_id})
 		})
 			.then(response => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error("Network response was not ok");
 				}
 				return response.json(); // Assuming the response is JSON
 			})
@@ -207,7 +208,7 @@ export default class Detail extends BaseController {
 	}
 
 	public fileList(): void {
-		fetch("http://localhost:3000/fileList")
+		fetch(Constants.apiUrl + "/fileList")
 			.then(response => response.text())
 			.then(data => {
 				(this.getModel("mainModel") as JSONModel).setProperty("/allFilesList", JSON.parse(data).data);
