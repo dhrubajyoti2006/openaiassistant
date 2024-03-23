@@ -61,7 +61,7 @@ export default class Detail extends BaseController {
 	}
 
 	public getAssistant(assistant_id: string): void {
-		fetch(`http://localhost:3000/getAssistant/${assistant_id}`)
+		fetch(`${Constants.apiUrl}/getAssistant/${assistant_id}`)
 			.then(response => response.text())
 			.then(data => {
 				this.assistant = JSON.parse(data);
@@ -109,7 +109,7 @@ export default class Detail extends BaseController {
 	}
 
 	public deleteThread(thread_id: string): void {
-		fetch(`http://localhost:3000/deleteAssistant/${thread_id}`, {
+		fetch(`${Constants.apiUrl}/deleteAssistant/${thread_id}`, {
 			method: "DELETE"
 		})
 			.then(response => response.text())
@@ -181,7 +181,7 @@ export default class Detail extends BaseController {
 	}
 
 	public retrieveRun(thread_id: string, run_id: string) {
-		fetch(`http://localhost:3000/retrieveRun/${thread_id}/${run_id}`)
+		fetch(`${Constants.apiUrl}/retrieveRun/${thread_id}/${run_id}`)
 			.then(response => response.text())
 			.then(data => {
 				this.currentRunStatus = JSON.parse(data).status;
@@ -196,7 +196,7 @@ export default class Detail extends BaseController {
 	}
 
 	public messageList(thread_id: string): void {
-		fetch(`http://localhost:3000/messageList/${thread_id}`)
+		fetch(`${Constants.apiUrl}/messageList/${thread_id}`)
 			.then(response => response.text())
 			.then(data => {
 				this.getMainModel().setProperty("/messages", JSON.parse(data).data.reverse());

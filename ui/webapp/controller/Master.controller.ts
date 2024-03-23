@@ -126,7 +126,7 @@ export default class Master extends BaseController {
 	}
 
 	public deleteAssistant(assistant_id: string): void {
-		fetch(`http://localhost:3000/deleteAssistant/${assistant_id}`, {
+		fetch(`${Constants.apiUrl}/deleteAssistant/${assistant_id}`, {
 			method: "DELETE"
 		})
 			.then(response => response.text())
