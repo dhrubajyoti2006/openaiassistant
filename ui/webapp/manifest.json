@@ -34,7 +34,8 @@
 			"minUI5Version": "1.121.2",
 			"libs": {
 				"sap.ui.core": {},
-				"sap.m": {}
+				"sap.m": {},
+				"sap.ui.layout": {}
 			}
 		},
 
@@ -52,6 +53,13 @@
 					"bundleName": "com.dhrubajyoti2006.openaiassistant.i18n.i18n"
 				}
 			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
 		},
 
 		"routing": {
@@ -76,6 +84,7 @@
 					"pattern": "assistant_id/{assistant_id}",
 					"name": "detail",
 					"target": [
+						"master",
 						"detail"
 					]
 				}

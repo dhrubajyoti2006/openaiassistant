@@ -7,15 +7,11 @@
 	core:require="{
 		formatter: 'com/dhrubajyoti2006/openaiassistant/model/formatter'
 	}">
-	<Page showHeader="false">
-		<toolbar>
-			<OverflowToolbar>
-				<Title text="Assistants"/>
-				<ToolbarSpacer/>
-				<Button icon="sap-icon://add" tooltip="Add a new Assistant" press="onPressAddButton"/>
-			</OverflowToolbar>
-		</toolbar>
-		<List id="deprecatedWidgetsList" mode="Delete"
+	<Page showHeader="true" title="Assistants">
+		<headerContent>
+			<Button icon="sap-icon://add" tooltip="Add a new Assistant" press="onPressAddButton"/>
+		</headerContent>
+		<List mode="Delete"
 					delete="onDelete"
 					noDataText="{i18n>noAssistants}"
 					items="{

@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Popover
+		id="filesPopover"
+		title="File List"
+		placement="Bottom"
+		afterClose="onCloseDialog">
+		<List items="{mainModel>/files}">
+			<items>
+				<StandardListItem
+					title="{mainModel>filename}"
+					description="{mainModel>created_at}"
+					info="{mainModel>bytes}"
+					infoState="Success"/>
+			</items>
+		</List>
+	</Popover>
+</core:FragmentDefinition>

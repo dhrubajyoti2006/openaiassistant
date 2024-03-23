@@ -4,8 +4,51 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
 	core:require="{
 		formatter: 'com/dhrubajyoti2006/openaiassistant/model/formatter'
 	}">
-	<Button text="Detail"/>
+	<Page title="Threads, Files and Messages" titleAlignment="Center">
+		<headerContent>
+			<!--			<Button icon="sap-icon://refresh" tooltip="Refresh" press="onPressRefreshButton"/>-->
+			<Button icon="sap-icon://attachment" tooltip="File List" press="onPressFiles"/>
+			<Button icon="sap-icon://add" tooltip="Add a new Thread" press="onPressAddButton"/>
+		</headerContent>
+		<IllustratedMessage visible="{= !${mainModel>/thread_id}}"
+												title="Create a Thread"
+												description="Press the add button to create a thread and start conversation"
+												illustrationType="No Data"/>
+		<VBox visible="{= !!${mainModel>/thread_id}}" height="100%" width="100%" justifyContent="SpaceBetween"
+					alignItems="Center">
+			<HBox class="sapUiSmallMarginTop border1px" width="95%" height="85%"
+						renderType="Bare">
+				<List id="chatList" items="{path: 'mainModel>/messages'}" class="chatList" inset="false">
+					<noData>
+						<IllustratedMessage
+							title="No conversation yet"
+							description="Start typing your message"
+							illustrationType="No Data"/>
+					</noData>
+					<CustomListItem type="Inactive">
+						<HBox justifyContent="{= ${mainModel>role} === 'user' ? 'End' : 'Start'}" class="messageContainer">
+							<VBox visible="{= ${mainModel>role} === 'user'}" class="userMessage">
+								<Text text="{mainModel>content/0/text/value}" wrapping="true" class="messageText"/>
+							</VBox>
+							<VBox visible="{= ${mainModel>role} !== 'user'}" class="assistantMessage">
+								<Text text="{mainModel>content/0/text/value}" wrapping="true" class="messageText"/>
+							</VBox>
+						</HBox>
+					</CustomListItem>
+				</List>
+			</HBox>
+			<HBox width="95%" renderType="Bare" fitContainer="true" class="sapUiSmallMarginTopBottom">
+				<items>
+					<Input id="idMessage" class="sapUiSmallMarginEnd" width="100%"
+								 layoutData="sap.m.FlexItemData({growFactor: 1})"
+								 placeholder="Type your message here"/>
+					<Button icon="sap-icon://paper-plane" text="Send" press="onPressSend"/>
+				</items>
+			</HBox>
+		</VBox>
+	</Page>
 </mvc:View>

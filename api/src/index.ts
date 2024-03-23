@@ -1,67 +1,43 @@
-// src/index.ts
-import cors from 'cors';
-import express, {Request, Response} from 'express';
-import OpenAI from "openai";
-import 'dotenv/config';
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
-
-async function createAssistant() {
-    const myAssistant = await openai.beta.assistants.create({
-        instructions:
-            "You are a personal math tutor. When asked a question, write and run Python code to answer the question.",
-        name: "Math Tutor",
-        tools: [{type: "code_interpreter"}],
-        model: "gpt-3.5-turbo-0125",
-    });
-
-    console.log(myAssistant);
-}
-
-async function createThread() {
-    const emptyThread = await openai.beta.threads.create();
-
-    console.log(emptyThread);
-}
-
-async function assistantsList() {
-    return openai.beta.assistants.list({
-        order: "desc",
-        limit: 20,
-    });
-}
-
-async function deleteAssistant(assistant_id: string) {
-    return await openai.beta.assistants.del(assistant_id);
-
-}
+import cors from "cors";
+import express, {Request, Response} from "express";
+import {AssistantService} from "./services/AssistantService";
+import {ThreadService} from "./services/ThreadService";
+import {RunService} from "./services/RunService";
+import {MessageService} from "./services/MessageService";
+import {FileService} from "./services/FileService";
+import {AssistantController} from "./controller/AssistantController";
+import {ThreadController} from "./controller/ThreadController";
+import {RunController} from "./controller/RunController";
+import {MessageController} from "./controller/MessageController";
+import {FileController} from "./controller/FileController";
 
 const app = express();
 app.use(cors()); // Enable CORS for all routes
 const port = 3000;
 
+// Route for creating an Assistant
 app.use(express.json());
 
-app.get('/createAssistant', async (req: Request, res: Response) => {
-    await createAssistant();
-    res.send('Assistant created');
-});
+app.post("/createAssistant", AssistantController.createAssistant);
+app.get("/assistantsList", AssistantController.assistantsList);
+app.get("/getAssistant/:assistant_id", AssistantController.getAssistant);
+app.delete("/deleteAssistant/:assistant_id", AssistantController.deleteAssistant);
 
-app.get('/assistantsList', async (req: Request, res: Response) => {
-    // await assistantsList();
-    res.send(await assistantsList());
-});
+// Route for creating a Thread
+app.get("/createThread", ThreadController.createThread);
+app.delete("/deleteThread/:thread_id", ThreadController.deleteThread);
 
-app.delete('/deleteAssistant/:assistant_id', async (req: Request, res: Response) => {
-    res.send(await deleteAssistant(req.params.assistant_id));
-});
+// Route for creating a Message
+app.post("/createMessage", MessageController.createMessage);
+app.get("/messageList/:thread_id", MessageController.messageList);
 
-app.get('/createThread', async (req: Request, res: Response) => {
-    await createThread();
-    res.send('Thread Created');
-});
+// Route for creating a run
+app.post("/createRun", RunController.createRun);
+app.get("/retrieveRun/:thread_id/:run_id", RunController.retrieveRun);
+
+// Route for creating a File
+app.get("/fileList", FileController.fileList);
+app.post("/uploadFile", FileController.uploadFile);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

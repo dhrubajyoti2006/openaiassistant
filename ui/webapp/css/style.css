@@ -1,0 +1,55 @@
+.border1px {
+	border: 1px solid #d9d9d9;
+	background: white;
+}
+
+.alignRight {
+	text-align: right;
+	width: 100%;
+}
+
+.alignLeft {
+	text-align: left;
+	width: 100%;
+}
+
+/* Container for each message */
+.messageContainer {
+	width: 100%;
+	padding: 8px;
+}
+
+/* Styling for user messages */
+.userMessage {
+	background-color: #DCF8C6; /* WhatsApp user message background color */
+	padding: 6px 12px;
+	border-radius: 7.5px;
+	margin-left: auto; /* Aligns the user messages to the right */
+	max-width: 95%;
+}
+
+/* Styling for assistant messages */
+.assistantMessage {
+	background-color: #e9e9e9; /* WhatsApp assistant message background color */
+	padding: 6px 12px;
+	border-radius: 7.5px;
+	margin-right: auto; /* Aligns the assistant messages to the left */
+	max-width: 95%;
+}
+
+/* Text styling within messages */
+.messageText {
+	color: #000000;
+}
+
+/* Remove borders and background for list items */
+.sapMLIB, .sapMLIB-CTX, .sapMListUl {
+	background-color: transparent !important;
+	border: none !important;
+}
+
+/* Adjust padding and margin for list to remove space between items */
+.chatList .sapMLIB {
+	padding: 0 !important;
+	margin: 0 !important;
+}
