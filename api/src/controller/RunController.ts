@@ -21,4 +21,19 @@ export class RunController {
             res.status(500).send(error instanceof Error ? error.message : 'Unknown error');
         }
     }
+
+    public static async submitToolOutputs(req: Request, res: Response) {
+        try {
+            const result = await RunService.submitToolOutputs(
+                req.params.thread_id,
+                req.params.run_id,
+                {
+                    tool_outputs: req.body
+                }
+            );
+            res.send(result);
+        } catch (error) {
+            res.status(500).send(error instanceof Error ? error.message : 'Unknown error');
+        }
+    }
 }

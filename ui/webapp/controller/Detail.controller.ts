@@ -7,6 +7,15 @@ import Input from "sap/m/Input";
 import {Button$PressEvent} from "sap/m/Button";
 import {Constants} from "com/dhrubajyoti2006/openaiassistant/utils/Constants";
 
+interface OpenAIToolCall {
+	id: string,
+	type: string,
+	function: {
+		name: string,
+		arguments: string
+	}
+}
+
 /**
  * @namespace com.dhrubajyoti2006.openaiassistant.controller
  */
@@ -166,7 +175,7 @@ export default class Detail extends BaseController {
 			.then(data => {
 				this.run_id = data.id;
 				this.currentRunStatus = "started";
-				this.startRunCheck();
+				// this.startRunCheck();
 				console.log("Message created successfully", data);
 				// Handle success, maybe update UI or clear form
 			})
@@ -180,12 +189,73 @@ export default class Detail extends BaseController {
 		this.retrieveRun(this.getThreadId(), this.run_id);
 	}
 
+	private getWeather(location: string, unit: string) {
+		return `This is the Temperature of ${location}: 25 degree ${unit}`
+	}
+
+	public handleFunctionToolCall(id: string, functionName: string, functionArguments: string) {
+		const parsedArguments = JSON.parse(functionArguments);
+		let returnValue = "";
+
+		if (functionName == "get_weather") {
+			returnValue = this.getWeather(parsedArguments.location, parsedArguments.unit);
+		} else {
+			returnValue = "Unable to find the functional name";
+		}
+
+		return {
+			tool_call_id: id,
+			output: returnValue
+		}
+	}
+
+	public handleToolCalls(tool_calls: Array<OpenAIToolCall>) {
+		let toolOutputs: Array<string> = [];
+		for (let i = 0; i < tool_calls.length; i++) {
+			const tool_call = tool_calls[i];
+			if (tool_call.type == "function") {
+				const functionResponse = this.handleFunctionToolCall(tool_call.id, tool_call.function.name, tool_call.function.arguments);
+
+				toolOutputs.push(functionResponse);
+			}
+		}
+
+		return toolOutputs;
+	}
+
+	public submitToolOutput(thread_id: string, run_id: string, toolOutputs: Array<string>) {
+		fetch(`${Constants.apiUrl}/submitToolOutputs/${thread_id}/${run_id}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(toolOutputs)
+		})
+			.then(response => response.text())
+			.then(data => {
+				console.log(JSON.parse(data));
+			})
+			.catch(error => {
+				console.error("Error fetching data:", error);
+				// Handle any errors here
+			});
+	}
+
 	public retrieveRun(thread_id: string, run_id: string) {
 		fetch(`${Constants.apiUrl}/retrieveRun/${thread_id}/${run_id}`)
 			.then(response => response.text())
 			.then(data => {
-				this.currentRunStatus = JSON.parse(data).status;
-				if (JSON.parse(data).status === "completed") {
+				const response = JSON.parse(data);
+				if (response?.required_action?.submit_tool_outputs?.tool_calls) {
+					const tools_calls = response.required_action.submit_tool_outputs.tool_calls;
+
+					const toolOutputs = this.handleToolCalls(tools_calls);
+
+					this.submitToolOutput(thread_id, run_id, toolOutputs);
+				}
+
+				this.currentRunStatus = response.status;
+				if (response.status === "completed") {
 					this.messageList(this.getThreadId());
 				}
 			})

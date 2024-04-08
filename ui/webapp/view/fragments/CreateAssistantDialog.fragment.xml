@@ -17,12 +17,15 @@
 									columnsM="1"
 									singleContainerFullSize="false" >
 			<f:content>
+
 				<Label text="Assistant Name" />
 				<Input id="name" value="{mainModel>/assistant/name}" />
 				<Label text="Instructions" />
 				<TextArea value="{mainModel>/assistant/instructions}"/>
 				<CheckBox text="Code Interpreter" selected="{mainModel>/assistant/code_interpreter}"/>
 				<CheckBox text="Retrieval" selected="{mainModel>/assistant/retrieval}"/>
+				<Label text="Functions" />
+				<TextArea rows="8" value="{mainModel>/assistant/functions}"/>
 			</f:content>
 		</f:SimpleForm>
 		<beginButton>

@@ -10,7 +10,7 @@
 	}">
 	<Page title="Threads, Files and Messages" titleAlignment="Center">
 		<headerContent>
-			<!--			<Button icon="sap-icon://refresh" tooltip="Refresh" press="onPressRefreshButton"/>-->
+						<Button icon="sap-icon://refresh" tooltip="Refresh" press="onPressRefreshButton"/>
 			<Button icon="sap-icon://attachment" tooltip="File List" press="onPressFiles"/>
 			<Button icon="sap-icon://add" tooltip="Add a new Thread" press="onPressAddButton"/>
 		</headerContent>

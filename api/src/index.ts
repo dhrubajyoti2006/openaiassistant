@@ -10,10 +10,12 @@ import {ThreadController} from "./controller/ThreadController";
 import {RunController} from "./controller/RunController";
 import {MessageController} from "./controller/MessageController";
 import {FileController} from "./controller/FileController";
+import {PDFController} from "./controller/PDFController";
+import {FunctionCallingController} from "./controller/FunctionCallingController";
 
 const app = express();
 app.use(cors()); // Enable CORS for all routes
-const port = 3000;
+const port = 3001;
 
 // Route for creating an Assistant
 app.use(express.json());
@@ -34,10 +36,15 @@ app.get("/messageList/:thread_id", MessageController.messageList);
 // Route for creating a run
 app.post("/createRun", RunController.createRun);
 app.get("/retrieveRun/:thread_id/:run_id", RunController.retrieveRun);
+app.post("/submitToolOutputs/:thread_id/:run_id", RunController.submitToolOutputs);
 
 // Route for creating a File
 app.get("/fileList", FileController.fileList);
 app.post("/uploadFile", FileController.uploadFile);
+
+app.get("/generatePDF", PDFController.generatePDF);
+
+app.get("/functionCalling-get", FunctionCallingController.get);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

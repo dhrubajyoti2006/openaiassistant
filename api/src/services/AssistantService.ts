@@ -10,7 +10,8 @@ interface AssistantPayload {
     name: string,
     instructions: string,
     code_interpreter: boolean,
-    retrieval: boolean
+    retrieval: boolean,
+    functions: string
 }
 
 export class AssistantService {
@@ -27,6 +28,10 @@ export class AssistantService {
                 type: "retrieval"
             });
         }
+        // if (assistant.functions) {
+        //     tools.concat(JSON.parse(assistant.functions));
+        // }
+        console.log(assistant.functions);
         return openai.beta.assistants.create({
             instructions: assistant.instructions,
             name: assistant.name,

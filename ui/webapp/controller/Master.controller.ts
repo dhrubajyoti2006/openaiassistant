@@ -65,19 +65,22 @@ export default class Master extends BaseController {
 			name: "",
 			instructions: "",
 			code_interpreter: false,
-			retrieval: true
+			retrieval: true,
+			functions: ""
 		});
 		this.openCreateAssistantDialog();
 		return;
 	}
 
 	private onSubmitAssistantUpdate() {
+		let data = this.getMainModel().getProperty("/assistant");
+		// data.functions = JSON.parse(data.functions);
 		fetch(Constants.apiUrl + "/createAssistant", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify(this.getMainModel().getProperty("/assistant"))
+			body: JSON.stringify(data)
 		})
 			.then(response => {
 				if (!response.ok) {
@@ -120,7 +123,8 @@ export default class Master extends BaseController {
 			name: selectedAssistant.name,
 			instructions: selectedAssistant.instructions,
 			code_interpreter: selectedAssistant.tools.some(item => item.type === "code_interpreter"),
-			retrieval: selectedAssistant.tools.some(item => item.type === "retrieval")
+			retrieval: selectedAssistant.tools.some(item => item.type === "retrieval"),
+			functions: selectedAssistant.tools.some(item => item.type === "function")
 		});
 		this.openCreateAssistantDialog();
 	}

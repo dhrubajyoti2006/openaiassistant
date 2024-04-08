@@ -20,4 +20,16 @@ export class RunService {
             run_id
         );
     }
+
+    public static async submitToolOutputs(
+        thread_id: string,
+        run_id: string,
+        tool_outputs: OpenAI.Beta.Threads.Runs.RunSubmitToolOutputsParamsNonStreaming
+    ) {
+        return openai.beta.threads.runs.submitToolOutputs(
+            thread_id,
+            run_id,
+            tool_outputs
+        );
+    }
 }
